@@ -1,20 +1,268 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapSigns } from "@fortawesome/free-solid-svg-icons";
 import { faMobileAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
-import { faWeebly } from "@fortawesome/free-brands-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
+
+// import { userSkills } from "../../store/actions/resumeDetailsActions";
+// import { store } from "../../store/store";
 import "./developerResume.css";
 
 const DeveloperResume = () => {
+  const [fName, setFName] = useState();
+  const [desig, setDesig] = useState();
+  const [address, setAddress] = useState();
+  const [phoneNo, setPhoneNo] = useState();
+  const [email, setEmail] = useState();
+  const [github, setGithub] = useState();
+
+  const [inputList, setInputList] = useState([]);
+  const [socials, setSocials] = useState([]);
+
+  // useEffect(() => {
+  //   store.subscribe(() => {
+  //     const { userSkills } = store.getState().resumeDetails;
+  //     console.log(userSkills);
+  //   });
+  // });
+
+  const handleAddInputFields = () => {
+    inputList.push({ skillName: "", skillPer: "" });
+    setInputList([...inputList]);
+  };
+
+  const handleRemoveFields = () => {
+    inputList.splice(0, 1);
+    setInputList([...inputList]);
+  };
+
+  const handleAddSocialFields = () => {
+    socials.push({
+      faIcon: ["faFacebook", "faTwitter", "faYoutube", "faLinkedin"],
+      socialName: "",
+      socialEmail: "",
+    });
+    setSocials([...socials]);
+  };
+
   return (
     <>
+      {/* RESUME CONTAINER */}
       <div className="resume-container">
+        {/* USER DATA FORM */}
+        <div className="user-data-form">
+          <form>
+            <h3>User Data</h3>
+            <div className="form-fields">
+              <div className="form-group">
+                <label htmlFor="fullName" className="text-color">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  name="fullName"
+                  className="form-control"
+                  placeholder="Enter Full Name"
+                  onChange={e => setFName(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="designation" className="text-color">
+                  Enter Your Designation
+                </label>
+                <input
+                  type="text"
+                  name="designation"
+                  className="form-control"
+                  placeholder="Enter Your Designation"
+                  onChange={e => setDesig(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="form-fields">
+              <div className="form-group">
+                <label htmlFor="address" className="text-color">
+                  Address
+                </label>
+                <input
+                  type="text"
+                  name="address"
+                  className="form-control"
+                  placeholder="Enter Your Address"
+                  onChange={e => setAddress(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="phoneNo" className="text-color">
+                  Phone No.
+                </label>
+                <input
+                  type="text"
+                  name="phoneNo"
+                  className="form-control"
+                  placeholder="Enter Your Phone No."
+                  onChange={e => setPhoneNo(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="form-fields">
+              <div className="form-group">
+                <label htmlFor="email" className="text-color">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  placeholder="Enter Your Email"
+                  onChange={e => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="github" className="text-color">
+                  Github
+                </label>
+                <input
+                  type="text"
+                  name="github"
+                  className="form-control"
+                  placeholder="Enter Your Github"
+                  onChange={e => setGithub(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="form-fields input-class">
+              {inputList.map((skills, i) => {
+                // console.log(skills, "skills console");
+                return (
+                  <div key={i} className="random-skills">
+                    <div className="form-group">
+                      <label htmlFor="skillName" className="text-color">
+                        Skill Name
+                      </label>
+                      <input
+                        type="text"
+                        name="skillName"
+                        // value={inputList[i].skillName}
+                        className="form-control"
+                        placeholder="Enter Your Skill Name"
+                        onChange={e => {
+                          inputList[i].skillName = e.target.value;
+                        }}
+                      />
+                    </div>
+                    <div className="form-group skillPer">
+                      <label htmlFor="skillPer" className="text-color">
+                        Skill Percentage
+                      </label>
+                      <input
+                        type="text"
+                        name="skillPer"
+                        // value={inputList[i].skillPer}
+                        className="form-control"
+                        placeholder="Eg: 40%"
+                        onChange={e => (inputList[i].skillPer = e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        className="btn btn-primary"
+                        type="button"
+                        value="x"
+                        style={{ marginTop: "30px" }}
+                        onClick={handleRemoveFields}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <h4 style={{ color: "white" }}>Add Skills</h4>
+            <div className="form-group">
+              <input
+                className="btn btn-primary"
+                type="button"
+                value="+"
+                onClick={handleAddInputFields}
+              />
+              <input
+                className="btn btn-primary"
+                type="button"
+                value="Add Social"
+                style={{ marginLeft: "20px" }}
+                onClick={handleAddSocialFields}
+              />
+            </div>
+
+            <div className="form-fields socials-input">
+              {socials.map((social, i) => {
+                console.log(social.faIcon[i]);
+                return (
+                  <div className="form-group random-socials" key={i}>
+                    <ul>
+                      <li>
+                        <div className="icon">
+                          <FontAwesomeIcon
+                            // icon={social.faIcon[i]}
+                            size="1x"
+                            className="icons"
+                          />
+                        </div>
+                      </li>
+                    </ul>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        name="social"
+                        // value={inputList[i].skillName}
+                        className="form-control"
+                        placeholder="Enter Your Social Account"
+                        // onChange={e => {
+                        //   inputList[i].skillName = e.target.value;
+                        // }}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        className="btn btn-primary"
+                        type="button"
+                        value="Add"
+                        style={{ marginLeft: "10px" }}
+                        // onClick={handleAddSocialFields}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        className="btn btn-primary remove-field"
+                        type="button"
+                        value="x"
+                        style={{ marginLeft: "10px" }}
+                        // onClick={handleRemoveFields}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="form-fields">
+              <div>
+                <button className="btn btn-primary btn-block">Next</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        {/* RESUME DIV */}
+
         <div className="resume">
           <div className="resume-left">
             <div className="resume_profile">
@@ -23,8 +271,8 @@ const DeveloperResume = () => {
             <div className="resume_content">
               <div className="resume_item resume_info">
                 <div className="title">
-                  <p className="bold">Rabeet Khan</p>
-                  <p className="regular">Developer</p>
+                  <p className="bold">{fName}</p>
+                  <p className="regular">{desig}</p>
                 </div>
                 <ul>
                   <li>
@@ -35,7 +283,7 @@ const DeveloperResume = () => {
                         className="icons"
                       />
                     </div>
-                    <div className="user-data">Gulshan-e-Iqbal block 20</div>
+                    <div className="user-data">{address}</div>
                   </li>
                   <li>
                     <div className="icon">
@@ -45,7 +293,7 @@ const DeveloperResume = () => {
                         className="icons"
                       />
                     </div>
-                    <div className="user-data">+92-3140582591</div>
+                    <div className="user-data">{phoneNo}</div>
                   </li>
                   <li>
                     <div className="icon">
@@ -55,17 +303,17 @@ const DeveloperResume = () => {
                         className="icons"
                       />
                     </div>
-                    <div className="user-data">abcd@gmail.com</div>
+                    <div className="user-data">{email}</div>
                   </li>
                   <li>
                     <div className="icon">
                       <FontAwesomeIcon
-                        icon={faWeebly}
+                        icon={faGithub}
                         size="1x"
                         className="icons"
                       />
                     </div>
-                    <div className="user-data">www.userweb.com</div>
+                    <div className="user-data">{github}</div>
                   </li>
                 </ul>
               </div>
@@ -74,41 +322,24 @@ const DeveloperResume = () => {
                   <p className="bold">skill's</p>
                 </div>
                 <ul>
-                  <li>
-                    <div className="skill_name">HTML</div>
-                    <div className="skill_progress">
-                      <span style={{ width: "80%" }}></span>
-                    </div>
-                    <div className="skill_per">80%</div>
-                  </li>
-                  <li>
-                    <div className="skill_name">CSS</div>
-                    <div className="skill_progress">
-                      <span style={{ width: "70%" }}></span>
-                    </div>
-                    <div className="skill_per">70%</div>
-                  </li>
-                  <li>
-                    <div className="skill_name">SASS</div>
-                    <div className="skill_progress">
-                      <span style={{ width: "90%" }}></span>
-                    </div>
-                    <div className="skill_per">90%</div>
-                  </li>
-                  <li>
-                    <div className="skill_name">JS</div>
-                    <div className="skill_progress">
-                      <span style={{ width: "60%" }}></span>
-                    </div>
-                    <div className="skill_per">60%</div>
-                  </li>
-                  <li>
-                    <div className="skill_name">JQUERY</div>
-                    <div className="skill_progress">
-                      <span style={{ width: "88%" }}></span>
-                    </div>
-                    <div className="skill_per">88%</div>
-                  </li>
+                  {inputList?.map((skill, i) => {
+                    // console.log(skill);
+                    if (
+                      inputList[i].skillName !== "" &&
+                      inputList[i].skillPer !== ""
+                    ) {
+                      return (
+                        <li key={i}>
+                          <div className="skill_name">{skill.skillName}</div>
+                          <div className="skill_progress">
+                            <span style={{ width: skill.skillPer }}></span>
+                          </div>
+                          <div className="skill_per">{skill.skillPer}</div>
+                        </li>
+                      );
+                    }
+                    return null;
+                  })}
                 </ul>
               </div>
               <div className="resume_item resume_social">
