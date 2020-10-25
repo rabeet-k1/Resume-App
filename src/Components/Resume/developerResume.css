@@ -235,9 +235,7 @@ h3 {
     color: white;
 }
 
-
-
-.input-class, .socials-input {
+.input-class {
     display: flex;
     flex-direction: column;
 }
@@ -248,10 +246,31 @@ h3 {
     justify-content: space-around;
 }
 
-.random-socials {
+.social {
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
+    flex-direction: row;
+}
+
+.social-input {
+    display: flex;
+    /* flex-direction: row; */
+}
+
+.social-content{
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.social-icon {
+    width: 35px;
+    height: 35px;
+    background: #fff;
+    color: #0bb5f4;
+    border-radius: 50%;
+    margin-left: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
 }
 
 /* Media Query */

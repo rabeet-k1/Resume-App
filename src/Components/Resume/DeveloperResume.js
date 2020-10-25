@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapSigns } from "@fortawesome/free-solid-svg-icons";
 import { faMobileAlt } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+// import { faGoogle } from "@fortawesome/free-solid-svg-icons";
 
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
@@ -23,7 +24,12 @@ const DeveloperResume = () => {
   const [github, setGithub] = useState();
 
   const [inputList, setInputList] = useState([]);
-  const [socials, setSocials] = useState([]);
+  const [socialInput, setSocialInput] = useState([]);
+
+  // const [facebook, setFacebook] = useState();
+  // const [twitter, setTwitter] = useState();
+  // const [youtube, setYoutube] = useState();
+  // const [linkedIn, setLinkedIn] = useState();
 
   // useEffect(() => {
   //   store.subscribe(() => {
@@ -42,13 +48,14 @@ const DeveloperResume = () => {
     setInputList([...inputList]);
   };
 
-  const handleAddSocialFields = () => {
-    socials.push({
-      faIcon: ["faFacebook", "faTwitter", "faYoutube", "faLinkedin"],
-      socialName: "",
+  const handleAddSocialInput = e => {
+    e.preventDefault();
+    socialInput.push({
+      type: ["facebook", "twitter", "youtube", "linkedIn"],
       socialEmail: "",
+      placeHolder: ["Enter Your Facebook", "Enter Your Twitter"],
     });
-    setSocials([...socials]);
+    setSocialInput([...socialInput]);
   };
 
   return (
@@ -186,70 +193,98 @@ const DeveloperResume = () => {
             </div>
 
             <h4 style={{ color: "white" }}>Add Skills</h4>
-            <div className="form-group">
-              <input
-                className="btn btn-primary"
-                type="button"
-                value="+"
-                onClick={handleAddInputFields}
-              />
-              <input
-                className="btn btn-primary"
-                type="button"
-                value="Add Social"
-                style={{ marginLeft: "20px" }}
-                onClick={handleAddSocialFields}
-              />
+            <div className="social">
+              <div className="form-group">
+                <input
+                  className="btn btn-primary"
+                  type="button"
+                  value="+"
+                  onClick={handleAddInputFields}
+                />
+              </div>
+              <ul className="social">
+                <li>
+                  <button
+                    className="social-icon"
+                    onClick={handleAddSocialInput}
+                  >
+                    <FontAwesomeIcon
+                      icon={faFacebook}
+                      size="1x"
+                      className="icons"
+                    />
+                  </button>
+                  {/* <div className="user-data">{email}</div> */}
+                </li>
+                <li>
+                  <button
+                    className="social-icon"
+                    onClick={handleAddSocialInput}
+                  >
+                    <FontAwesomeIcon
+                      icon={faTwitter}
+                      size="1x"
+                      className="icons"
+                    />
+                  </button>
+                  {/* <div className="user-data">{email}</div> */}
+                </li>
+                <li>
+                  <button
+                    className="social-icon"
+                    onClick={handleAddSocialInput}
+                  >
+                    <FontAwesomeIcon
+                      icon={faYoutube}
+                      size="1x"
+                      className="icons"
+                    />
+                  </button>
+                  {/* <div className="user-data">{email}</div> */}
+                </li>
+                <li>
+                  <button
+                    className="social-icon"
+                    onClick={handleAddSocialInput}
+                  >
+                    <FontAwesomeIcon
+                      icon={faLinkedin}
+                      size="1x"
+                      className="icons"
+                    />
+                  </button>
+                  {/* <div className="user-data">{email}</div> */}
+                </li>
+              </ul>
             </div>
-
-            <div className="form-fields socials-input">
-              {socials.map((social, i) => {
-                console.log(social.faIcon[i]);
-                return (
-                  <div className="form-group random-socials" key={i}>
-                    <ul>
-                      <li>
-                        <div className="icon">
-                          <FontAwesomeIcon
-                            // icon={social.faIcon[i]}
-                            size="1x"
-                            className="icons"
-                          />
-                        </div>
-                      </li>
-                    </ul>
-                    <div className="form-group">
+            <div className="form-fields social-input">
+              {socialInput.map((input, i) => {
+                // console.log(socialInput[i].type[i]);
+                // console.log(input.type[i]);
+                if (input.type[i] === "facebook") {
+                  return (
+                    <div className="form-group social-content" key={i}>
+                      <label htmlFor="social" className="text-color">
+                        {/* {input.socialName[i]} */}
+                      </label>
                       <input
-                        type="text"
+                        type="email"
                         name="social"
-                        // value={inputList[i].skillName}
                         className="form-control"
-                        placeholder="Enter Your Social Account"
-                        // onChange={e => {
-                        //   inputList[i].skillName = e.target.value;
-                        // }}
+                        placeholder={input.placeHolder[i]}
+                        // onChange={e => setEmail(e.target.value)}
                       />
+                      <div className="form-group">
+                        <input
+                          className="btn btn-primary"
+                          type="button"
+                          value="Add"
+                          // onClick={handleAddInputFields}
+                        />
+                      </div>
                     </div>
-                    <div className="form-group">
-                      <input
-                        className="btn btn-primary"
-                        type="button"
-                        value="Add"
-                        style={{ marginLeft: "10px" }}
-                        // onClick={handleAddSocialFields}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        className="btn btn-primary remove-field"
-                        type="button"
-                        value="x"
-                        style={{ marginLeft: "10px" }}
-                        // onClick={handleRemoveFields}
-                      />
-                    </div>
-                  </div>
-                );
+                  );
+                }
               })}
             </div>
 
@@ -298,7 +333,7 @@ const DeveloperResume = () => {
                   <li>
                     <div className="icon">
                       <FontAwesomeIcon
-                        icon={faEnvelope}
+                        icon={faGoogle}
                         size="1x"
                         className="icons"
                       />
