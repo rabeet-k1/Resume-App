@@ -253,12 +253,8 @@ h3 {
 
 .social-input {
     display: flex;
-    /* flex-direction: row; */
-}
-
-.social-content{
     flex-direction: row;
-    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .social-icon {

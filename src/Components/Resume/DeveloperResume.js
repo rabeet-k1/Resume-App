@@ -26,10 +26,12 @@ const DeveloperResume = () => {
   const [inputList, setInputList] = useState([]);
   const [socialInput, setSocialInput] = useState([]);
 
-  // const [facebook, setFacebook] = useState();
-  // const [twitter, setTwitter] = useState();
-  // const [youtube, setYoutube] = useState();
-  // const [linkedIn, setLinkedIn] = useState();
+  const [socialEmails, setSocialEmails] = useState({
+    facebook: "",
+    twitter: "",
+    youtube: "",
+    linkedIn: "",
+  });
 
   // useEffect(() => {
   //   store.subscribe(() => {
@@ -51,12 +53,31 @@ const DeveloperResume = () => {
   const handleAddSocialInput = e => {
     e.preventDefault();
     socialInput.push({
-      type: ["facebook", "twitter", "youtube", "linkedIn"],
-      socialEmail: "",
-      placeHolder: ["Enter Your Facebook", "Enter Your Twitter"],
+      socialName: ["Facebook", "Twitter", "Youtube", "LinkedIn"],
+      names: ["facebook", "twitter", "youtube", "linkedIn"],
+      placeHolder: [
+        "Your Facebook",
+        "Your Twitter",
+        "Your Youtube",
+        "Your LinkedIn",
+      ],
     });
     setSocialInput([...socialInput]);
   };
+
+  // const onHandleChange = (e, i) => {
+  //   console.log(([e.target.name] = e.target.value));
+  //   // [e.target.name] = e.target.value;
+  //   // let value = e.target.value;
+  //   // socialEmails.push({
+  //   //   facebook: value,
+  //   // });
+  //   // setSocialEmails({ [e.target.name]: e.target.value });
+  //   // else if ((i = 1)) setTwitter(value);
+  //   // else if ((i = 2)) setYoutube(value);
+  //   // else if ((i = 3)) setLinkedIn(value);
+  //   // console.log(socialEmails);
+  // };
 
   return (
     <>
@@ -260,34 +281,38 @@ const DeveloperResume = () => {
             <div className="form-fields social-input">
               {socialInput.map((input, i) => {
                 // console.log(socialInput[i].type[i]);
-                // console.log(input.type[i]);
-                if (input.type[i] === "facebook") {
+                // console.log(input.socialEmails[i]);
+                console.log(input.names[i]);
+                if (i <= 3) {
                   return (
                     <div className="form-group social-content" key={i}>
                       <label htmlFor="social" className="text-color">
-                        {/* {input.socialName[i]} */}
+                        {input.socialName[i]}
                       </label>
                       <input
                         type="email"
-                        name="social"
+                        name={input.names[i]}
                         className="form-control"
                         placeholder={input.placeHolder[i]}
-                        // onChange={e => setEmail(e.target.value)}
+                        // onChange={e =>
+                        //   setSocialEmails({ [e.target.name]: e.target.value })
+                        // }
                       />
                       <div className="form-group">
                         <input
                           className="btn btn-primary"
                           type="button"
                           value="Add"
-                          // onClick={handleAddInputFields}
+                          // onClick={handleAddSocialEmail}
                         />
                       </div>
                     </div>
                   );
+                } else {
+                  return null;
                 }
               })}
             </div>
-
             <div className="form-fields">
               <div>
                 <button className="btn btn-primary btn-block">Next</button>
@@ -297,7 +322,6 @@ const DeveloperResume = () => {
         </div>
 
         {/* RESUME DIV */}
-
         <div className="resume">
           <div className="resume-left">
             <div className="resume_profile">
