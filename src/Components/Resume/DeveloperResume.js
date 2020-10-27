@@ -26,7 +26,14 @@ const DeveloperResume = () => {
   const [inputList, setInputList] = useState([]);
   const [socialInput, setSocialInput] = useState([]);
 
-  const [socialEmails, setSocialEmails] = useState();
+  const [socialEmails, setSocialEmails] = useState([]);
+
+  const socialButtons = [
+    { value: "facebook", icon: faFacebook },
+    { value: "twitter", icon: faTwitter },
+    { value: "youtube", icon: faYoutube },
+    { value: "linkedIn", icon: faLinkedin },
+  ];
 
   // useEffect(() => {
   //   store.subscribe(() => {
@@ -45,34 +52,57 @@ const DeveloperResume = () => {
     setInputList([...inputList]);
   };
 
-  const handleAddSocialInput = e => {
+  const handleAddSocialInput = (e, buttonValue) => {
     e.preventDefault();
-    socialInput.push({
-      socialName: ["Facebook", "Twitter", "Youtube", "LinkedIn"],
-      names: ["facebook", "twitter", "youtube", "linkedIn"],
-      placeHolder: [
-        "Your Facebook",
-        "Your Twitter",
-        "Your Youtube",
-        "Your LinkedIn",
-      ],
-    });
-    // setSocialEmails({});
+    // socialInput.find((currentValue, i, arr) => {
+    //   console.log();
+    // });
+    // console.log(buttonValue);
+    if (buttonValue === "facebook") {
+      // socialInput.find()
+      socialInput.push({
+        socialName: "Facebook",
+        name: "facebook",
+        placeHolder: "Your Facebook",
+      });
+    } else if (buttonValue === "twitter") {
+      socialInput.push({
+        socialName: "Twitter",
+        name: "twitter",
+        placeHolder: "Your Twitter",
+      });
+    } else if (buttonValue === "youtube") {
+      socialInput.push({
+        socialName: "Youtube",
+        name: "youtube",
+        placeHolder: "Your Youtube",
+      });
+    } else if (buttonValue === "linkedIn") {
+      socialInput.push({
+        socialName: "LinkedIn",
+        name: "linkedIn",
+        placeHolder: "Your LinkedIn",
+      });
+    }
     setSocialInput([...socialInput]);
   };
 
   const onHandleChange = (e, i) => {
-    // console.log(([e.target.name] = e.target.value));
-    // [e.target.name] = e.target.value;
+    console.log(e.target.name);
+    let value = e.target.value;
 
     if (e.target.name === "facebook") {
-      setSocialEmails({ facebook: e.target.value });
+      socialEmails[i] = { social: value, icon: faFacebook, name: "Facebook" };
+      setSocialEmails([...socialEmails]);
     } else if (e.target.name === "twitter") {
-      setSocialEmails({ twitter: e.target.value });
+      socialEmails[i] = { social: value, icon: faTwitter, name: "Twitter" };
+      setSocialEmails([...socialEmails]);
     } else if (e.target.name === "youtube") {
-      setSocialEmails({ youtube: e.target.value });
+      socialEmails[i] = { social: value, icon: faYoutube, name: "Youtube" };
+      setSocialEmails([...socialEmails]);
     } else if (e.target.name === "linkedIn") {
-      setSocialEmails({ linkedINURL: e.target.value });
+      socialEmails[i] = { social: value, icon: faLinkedin, name: "LinkedIn" };
+      setSocialEmails([...socialEmails]);
     }
 
     // setSocialEmails({ [e.target.name]: e.target.value });
@@ -226,26 +256,34 @@ const DeveloperResume = () => {
                   onClick={handleAddInputFields}
                 />
               </div>
+
               <ul className="social">
-                <li>
-                  <button
-                    className="social-icon"
-                    value="facebook"
-                    onClick={handleAddSocialInput}
-                  >
-                    <FontAwesomeIcon
-                      icon={faFacebook}
-                      size="1x"
-                      className="icons"
-                    />
-                  </button>
-                  {/* <div className="user-data">{email}</div> */}
-                </li>
-                <li>
+                {socialButtons.map((button, i) => {
+                  console.log(button);
+                  let buttonValue = button.value;
+                  return (
+                    <li key={i}>
+                      <button
+                        className="social-icon"
+                        // value="facebook"
+                        // disabled={isDisable}
+                        onClick={e => handleAddSocialInput(e, buttonValue)}
+                      >
+                        <FontAwesomeIcon
+                          icon={button.icon}
+                          size="1x"
+                          className="icons"
+                        />
+                      </button>
+                    </li>
+                  );
+                })}
+                {/* <li>
                   <button
                     className="social-icon"
                     value="twitter"
-                    onClick={handleAddSocialInput}
+                    // disabled={setIsDisable(true)}
+                    onClick={handleTwitterInput}
                   >
                     <FontAwesomeIcon
                       icon={faTwitter}
@@ -253,13 +291,13 @@ const DeveloperResume = () => {
                       className="icons"
                     />
                   </button>
-                  {/* <div className="user-data">{email}</div> */}
+                      <div className="user-data">{email}</div>
                 </li>
                 <li>
                   <button
                     className="social-icon"
                     value="youtube"
-                    onClick={handleAddSocialInput}
+                    onClick={handleYoutubeInput}
                   >
                     <FontAwesomeIcon
                       icon={faYoutube}
@@ -267,13 +305,13 @@ const DeveloperResume = () => {
                       className="icons"
                     />
                   </button>
-                  {/* <div className="user-data">{email}</div> */}
+                  <div className="user-data">{email}</div>
                 </li>
                 <li>
                   <button
                     className="social-icon"
                     value="linkedIn"
-                    onClick={handleAddSocialInput}
+                    onClick={handleLinkedInInput}
                   >
                     <FontAwesomeIcon
                       icon={faLinkedin}
@@ -281,36 +319,33 @@ const DeveloperResume = () => {
                       className="icons"
                     />
                   </button>
-                  {/* <div className="user-data">{email}</div> */}
-                </li>
+                  <div className="user-data">{email}</div>
+                </li> */}
               </ul>
             </div>
             <div className="form-fields social-input">
               {socialInput.map((input, i) => {
-                // console.log(socialInput[i].type[i]);
-                // console.log(input.socialEmails[i]);
-                // console.log(input.names[i]);
                 if (i <= 3) {
                   return (
                     <div className="form-group social-content" key={i}>
                       <label htmlFor="social" className="text-color">
-                        {input.socialName[i]}
+                        {input.socialName}
                       </label>
                       <input
                         type="email"
-                        name={input.names[i]}
+                        name={input.name}
                         className="form-control"
-                        placeholder={input.placeHolder[i]}
+                        placeholder={input.placeHolder}
                         onChange={e => onHandleChange(e, i)}
                       />
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <input
                           className="btn btn-primary"
                           type="button"
                           value="Add"
                           // onClick={handleAddSocialEmail}
                         />
-                      </div>
+                      </div> */}
                     </div>
                   );
                 } else {
@@ -411,21 +446,25 @@ const DeveloperResume = () => {
                   <p className="bold">social</p>
                 </div>
                 <ul>
-                  <li>
-                    <div className="icon">
-                      <FontAwesomeIcon
-                        icon={faFacebook}
-                        size="1x"
-                        className="icons"
-                      />
-                    </div>
-                    {console.log(socialEmails)}
-                    <div className="user-data">
-                      <p className="semi_bold">Facebook</p>
-                      <p>{socialEmails?.facebook}</p>
-                    </div>
-                  </li>
-                  <li>
+                  {socialEmails.map((email, i) => {
+                    console.log(email);
+                    return (
+                      <li key={i}>
+                        <div className="icon">
+                          <FontAwesomeIcon
+                            icon={email.icon}
+                            size="1x"
+                            className="icons"
+                          />
+                        </div>
+                        <div className="user-data">
+                          <p className="semi_bold">{email.name}</p>
+                          <p>{email.social}</p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                  {/* <li>
                     <div className="icon">
                       <FontAwesomeIcon
                         icon={faTwitter}
@@ -463,7 +502,7 @@ const DeveloperResume = () => {
                       <p className="semi_bold">Linkedin</p>
                       <p>rabeet@linkedin.com</p>
                     </div>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>
