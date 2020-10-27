@@ -26,12 +26,7 @@ const DeveloperResume = () => {
   const [inputList, setInputList] = useState([]);
   const [socialInput, setSocialInput] = useState([]);
 
-  const [socialEmails, setSocialEmails] = useState({
-    facebook: "",
-    twitter: "",
-    youtube: "",
-    linkedIn: "",
-  });
+  const [socialEmails, setSocialEmails] = useState();
 
   // useEffect(() => {
   //   store.subscribe(() => {
@@ -62,22 +57,30 @@ const DeveloperResume = () => {
         "Your LinkedIn",
       ],
     });
+    // setSocialEmails({});
     setSocialInput([...socialInput]);
   };
 
-  // const onHandleChange = (e, i) => {
-  //   console.log(([e.target.name] = e.target.value));
-  //   // [e.target.name] = e.target.value;
-  //   // let value = e.target.value;
-  //   // socialEmails.push({
-  //   //   facebook: value,
-  //   // });
-  //   // setSocialEmails({ [e.target.name]: e.target.value });
-  //   // else if ((i = 1)) setTwitter(value);
-  //   // else if ((i = 2)) setYoutube(value);
-  //   // else if ((i = 3)) setLinkedIn(value);
-  //   // console.log(socialEmails);
-  // };
+  const onHandleChange = (e, i) => {
+    // console.log(([e.target.name] = e.target.value));
+    // [e.target.name] = e.target.value;
+
+    if (e.target.name === "facebook") {
+      setSocialEmails({ facebook: e.target.value });
+    } else if (e.target.name === "twitter") {
+      setSocialEmails({ twitter: e.target.value });
+    } else if (e.target.name === "youtube") {
+      setSocialEmails({ youtube: e.target.value });
+    } else if (e.target.name === "linkedIn") {
+      setSocialEmails({ linkedINURL: e.target.value });
+    }
+
+    // setSocialEmails({ [e.target.name]: e.target.value });
+    // else if ((i = 1)) setTwitter(value);
+    // else if ((i = 2)) setYoutube(value);
+    // else if ((i = 3)) setLinkedIn(value);
+    // console.log(socialEmails);
+  };
 
   return (
     <>
@@ -227,6 +230,7 @@ const DeveloperResume = () => {
                 <li>
                   <button
                     className="social-icon"
+                    value="facebook"
                     onClick={handleAddSocialInput}
                   >
                     <FontAwesomeIcon
@@ -240,6 +244,7 @@ const DeveloperResume = () => {
                 <li>
                   <button
                     className="social-icon"
+                    value="twitter"
                     onClick={handleAddSocialInput}
                   >
                     <FontAwesomeIcon
@@ -253,6 +258,7 @@ const DeveloperResume = () => {
                 <li>
                   <button
                     className="social-icon"
+                    value="youtube"
                     onClick={handleAddSocialInput}
                   >
                     <FontAwesomeIcon
@@ -266,6 +272,7 @@ const DeveloperResume = () => {
                 <li>
                   <button
                     className="social-icon"
+                    value="linkedIn"
                     onClick={handleAddSocialInput}
                   >
                     <FontAwesomeIcon
@@ -282,7 +289,7 @@ const DeveloperResume = () => {
               {socialInput.map((input, i) => {
                 // console.log(socialInput[i].type[i]);
                 // console.log(input.socialEmails[i]);
-                console.log(input.names[i]);
+                // console.log(input.names[i]);
                 if (i <= 3) {
                   return (
                     <div className="form-group social-content" key={i}>
@@ -294,9 +301,7 @@ const DeveloperResume = () => {
                         name={input.names[i]}
                         className="form-control"
                         placeholder={input.placeHolder[i]}
-                        // onChange={e =>
-                        //   setSocialEmails({ [e.target.name]: e.target.value })
-                        // }
+                        onChange={e => onHandleChange(e, i)}
                       />
                       <div className="form-group">
                         <input
@@ -414,9 +419,10 @@ const DeveloperResume = () => {
                         className="icons"
                       />
                     </div>
+                    {console.log(socialEmails)}
                     <div className="user-data">
                       <p className="semi_bold">Facebook</p>
-                      <p>rabeet@facebook.com</p>
+                      <p>{socialEmails?.facebook}</p>
                     </div>
                   </li>
                   <li>
@@ -429,7 +435,7 @@ const DeveloperResume = () => {
                     </div>
                     <div className="user-data">
                       <p className="semi_bold">Twitter</p>
-                      <p>rabeet@twitter.com</p>
+                      <p>{socialEmails?.twitter}</p>
                     </div>
                   </li>
                   <li>
