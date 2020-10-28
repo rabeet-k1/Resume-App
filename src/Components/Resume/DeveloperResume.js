@@ -25,14 +25,16 @@ const DeveloperResume = () => {
 
   const [inputList, setInputList] = useState([]);
   const [socialInput, setSocialInput] = useState([]);
+  const [userSkills, setUserSkills] = useState([]);
 
   const [socialEmails, setSocialEmails] = useState([]);
+  const [isClicked, setIsClicked] = useState(true);
 
   const socialButtons = [
-    { value: "facebook", icon: faFacebook },
-    { value: "twitter", icon: faTwitter },
-    { value: "youtube", icon: faYoutube },
-    { value: "linkedIn", icon: faLinkedin },
+    { id: 1, value: "facebook", icon: faFacebook },
+    { id: 2, value: "twitter", icon: faTwitter },
+    { id: 3, value: "youtube", icon: faYoutube },
+    { id: 4, value: "linkedIn", icon: faLinkedin },
   ];
 
   // useEffect(() => {
@@ -43,46 +45,60 @@ const DeveloperResume = () => {
   // });
 
   const handleAddInputFields = () => {
-    inputList.push({ skillName: "", skillPer: "" });
+    inputList.push({});
     setInputList([...inputList]);
   };
 
-  const handleRemoveFields = () => {
-    inputList.splice(0, 1);
+  const handleAddSkills = i => {
+    let skillName = inputList[i].skillName;
+    let skillPer = inputList[i].skillPer;
+    userSkills.push({ skillName, skillPer });
+    setUserSkills([...userSkills]);
+  };
+
+  const handleRemoveFields = i => {
+    console.log(i);
+    // console.log(inputList);
+    inputList.splice(i, 1);
+    userSkills.splice(i, 1);
+    setUserSkills([...userSkills]);
     setInputList([...inputList]);
   };
 
   const handleAddSocialInput = (e, buttonValue) => {
     e.preventDefault();
     // socialInput.find((currentValue, i, arr) => {
-    //   console.log();
+    //   console.log(currentValue);
     // });
     // console.log(buttonValue);
-    if (buttonValue === "facebook") {
-      // socialInput.find()
+    if (isClicked && buttonValue === "facebook") {
       socialInput.push({
         socialName: "Facebook",
         name: "facebook",
         placeHolder: "Your Facebook",
       });
-    } else if (buttonValue === "twitter") {
+      setIsClicked(false);
+    } else if (!isClicked && buttonValue === "twitter") {
       socialInput.push({
         socialName: "Twitter",
         name: "twitter",
         placeHolder: "Your Twitter",
       });
-    } else if (buttonValue === "youtube") {
+      setIsClicked(true);
+    } else if (isClicked && buttonValue === "youtube") {
       socialInput.push({
         socialName: "Youtube",
         name: "youtube",
         placeHolder: "Your Youtube",
       });
-    } else if (buttonValue === "linkedIn") {
+      setIsClicked(false);
+    } else if (!isClicked && buttonValue === "linkedIn") {
       socialInput.push({
         socialName: "LinkedIn",
         name: "linkedIn",
         placeHolder: "Your LinkedIn",
       });
+      setIsClicked(true);
     }
     setSocialInput([...socialInput]);
   };
@@ -202,6 +218,8 @@ const DeveloperResume = () => {
             <div className="form-fields input-class">
               {inputList.map((skills, i) => {
                 // console.log(skills, "skills console");
+                // console.log(i);
+                console.log(userSkills);
                 return (
                   <div key={i} className="random-skills">
                     <div className="form-group">
@@ -236,9 +254,18 @@ const DeveloperResume = () => {
                       <input
                         className="btn btn-primary"
                         type="button"
+                        value="Add"
+                        style={{ marginTop: "30px" }}
+                        onClick={e => handleAddSkills(i)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        className="btn btn-primary"
+                        type="button"
                         value="x"
                         style={{ marginTop: "30px" }}
-                        onClick={handleRemoveFields}
+                        onClick={e => handleRemoveFields(i)}
                       />
                     </div>
                   </div>
@@ -256,17 +283,14 @@ const DeveloperResume = () => {
                   onClick={handleAddInputFields}
                 />
               </div>
-
               <ul className="social">
                 {socialButtons.map((button, i) => {
-                  console.log(button);
                   let buttonValue = button.value;
                   return (
                     <li key={i}>
                       <button
                         className="social-icon"
                         // value="facebook"
-                        // disabled={isDisable}
                         onClick={e => handleAddSocialInput(e, buttonValue)}
                       >
                         <FontAwesomeIcon
@@ -278,49 +302,6 @@ const DeveloperResume = () => {
                     </li>
                   );
                 })}
-                {/* <li>
-                  <button
-                    className="social-icon"
-                    value="twitter"
-                    // disabled={setIsDisable(true)}
-                    onClick={handleTwitterInput}
-                  >
-                    <FontAwesomeIcon
-                      icon={faTwitter}
-                      size="1x"
-                      className="icons"
-                    />
-                  </button>
-                      <div className="user-data">{email}</div>
-                </li>
-                <li>
-                  <button
-                    className="social-icon"
-                    value="youtube"
-                    onClick={handleYoutubeInput}
-                  >
-                    <FontAwesomeIcon
-                      icon={faYoutube}
-                      size="1x"
-                      className="icons"
-                    />
-                  </button>
-                  <div className="user-data">{email}</div>
-                </li>
-                <li>
-                  <button
-                    className="social-icon"
-                    value="linkedIn"
-                    onClick={handleLinkedInInput}
-                  >
-                    <FontAwesomeIcon
-                      icon={faLinkedin}
-                      size="1x"
-                      className="icons"
-                    />
-                  </button>
-                  <div className="user-data">{email}</div>
-                </li> */}
               </ul>
             </div>
             <div className="form-fields social-input">
@@ -421,12 +402,13 @@ const DeveloperResume = () => {
                   <p className="bold">skill's</p>
                 </div>
                 <ul>
-                  {inputList?.map((skill, i) => {
-                    // console.log(skill);
-                    if (
-                      inputList[i].skillName !== "" &&
-                      inputList[i].skillPer !== ""
-                    ) {
+                  {userSkills?.map(
+                    (skill, i) => {
+                      // console.log(skill);
+                      // if (
+                      //   inputList[i].skillName !== "" &&
+                      //   inputList[i].skillPer !== ""
+                      // ) {
                       return (
                         <li key={i}>
                           <div className="skill_name">{skill.skillName}</div>
@@ -437,8 +419,8 @@ const DeveloperResume = () => {
                         </li>
                       );
                     }
-                    return null;
-                  })}
+                    // return null;
+                  )}
                 </ul>
               </div>
               <div className="resume_item resume_social">
