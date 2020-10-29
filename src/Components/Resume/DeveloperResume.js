@@ -27,8 +27,14 @@ const DeveloperResume = () => {
   const [socialInput, setSocialInput] = useState([]);
   const [userSkills, setUserSkills] = useState([]);
 
+  const [fbDisable, setFbDisable] = useState(true);
+  const [twDisable, setTwDisable] = useState(true);
+  const [youtubeDisable, setYoutubeDisable] = useState(true);
+  const [linkedInDisable, setLinkedInDisable] = useState(true);
+
   const [socialEmails, setSocialEmails] = useState([]);
-  const [isClicked, setIsClicked] = useState(true);
+
+  const [summary, setSummary] = useState();
 
   const socialButtons = [
     { id: 1, value: "facebook", icon: faFacebook },
@@ -48,16 +54,16 @@ const DeveloperResume = () => {
     inputList.push({});
     setInputList([...inputList]);
   };
-
   const handleAddSkills = i => {
-    let skillName = inputList[i].skillName;
-    let skillPer = inputList[i].skillPer;
-    userSkills.push({ skillName, skillPer });
-    setUserSkills([...userSkills]);
+    if (userSkills.length === i) {
+      let skillName = inputList[i].skillName;
+      let skillPer = inputList[i].skillPer;
+      userSkills.push({ skillName, skillPer });
+      setUserSkills([...userSkills]);
+    }
   };
 
   const handleRemoveFields = i => {
-    console.log(i);
     // console.log(inputList);
     inputList.splice(i, 1);
     userSkills.splice(i, 1);
@@ -67,44 +73,39 @@ const DeveloperResume = () => {
 
   const handleAddSocialInput = (e, buttonValue) => {
     e.preventDefault();
-    // socialInput.find((currentValue, i, arr) => {
-    //   console.log(currentValue);
-    // });
-    // console.log(buttonValue);
-    if (isClicked && buttonValue === "facebook") {
+    if (fbDisable && buttonValue === "facebook") {
       socialInput.push({
         socialName: "Facebook",
         name: "facebook",
         placeHolder: "Your Facebook",
       });
-      setIsClicked(false);
-    } else if (!isClicked && buttonValue === "twitter") {
+      setFbDisable(false);
+    } else if (twDisable && buttonValue === "twitter") {
       socialInput.push({
         socialName: "Twitter",
         name: "twitter",
         placeHolder: "Your Twitter",
       });
-      setIsClicked(true);
-    } else if (isClicked && buttonValue === "youtube") {
+      setTwDisable(false);
+    } else if (youtubeDisable && buttonValue === "youtube") {
       socialInput.push({
         socialName: "Youtube",
         name: "youtube",
         placeHolder: "Your Youtube",
       });
-      setIsClicked(false);
-    } else if (!isClicked && buttonValue === "linkedIn") {
+      setYoutubeDisable(false);
+    } else if (linkedInDisable && buttonValue === "linkedIn") {
       socialInput.push({
         socialName: "LinkedIn",
         name: "linkedIn",
         placeHolder: "Your LinkedIn",
       });
-      setIsClicked(true);
+      setLinkedInDisable(false);
     }
     setSocialInput([...socialInput]);
   };
 
   const onHandleChange = (e, i) => {
-    console.log(e.target.name);
     let value = e.target.value;
 
     if (e.target.name === "facebook") {
@@ -120,12 +121,6 @@ const DeveloperResume = () => {
       socialEmails[i] = { social: value, icon: faLinkedin, name: "LinkedIn" };
       setSocialEmails([...socialEmails]);
     }
-
-    // setSocialEmails({ [e.target.name]: e.target.value });
-    // else if ((i = 1)) setTwitter(value);
-    // else if ((i = 2)) setYoutube(value);
-    // else if ((i = 3)) setLinkedIn(value);
-    // console.log(socialEmails);
   };
 
   return (
@@ -217,9 +212,6 @@ const DeveloperResume = () => {
 
             <div className="form-fields input-class">
               {inputList.map((skills, i) => {
-                // console.log(skills, "skills console");
-                // console.log(i);
-                console.log(userSkills);
                 return (
                   <div key={i} className="random-skills">
                     <div className="form-group">
@@ -229,11 +221,11 @@ const DeveloperResume = () => {
                       <input
                         type="text"
                         name="skillName"
-                        // value={inputList[i].skillName}
+                        value={inputList[i].skillName}
                         className="form-control"
                         placeholder="Enter Your Skill Name"
                         onChange={e => {
-                          inputList[i].skillName = e.target.value;
+                          inputList[i][e.target.name] = e.target.value;
                         }}
                       />
                     </div>
@@ -244,10 +236,12 @@ const DeveloperResume = () => {
                       <input
                         type="text"
                         name="skillPer"
-                        // value={inputList[i].skillPer}
+                        value={inputList[i].skillPer}
                         className="form-control"
                         placeholder="Eg: 40%"
-                        onChange={e => (inputList[i].skillPer = e.target.value)}
+                        onChange={e =>
+                          (inputList[i][e.target.name] = e.target.value)
+                        }
                       />
                     </div>
                     <div className="form-group">
@@ -319,20 +313,25 @@ const DeveloperResume = () => {
                         placeholder={input.placeHolder}
                         onChange={e => onHandleChange(e, i)}
                       />
-                      {/* <div className="form-group">
-                        <input
-                          className="btn btn-primary"
-                          type="button"
-                          value="Add"
-                          // onClick={handleAddSocialEmail}
-                        />
-                      </div> */}
                     </div>
                   );
-                } else {
-                  return null;
-                }
+                } else return null;
               })}
+            </div>
+
+            <div className="summary-container">
+              <div className="form-group">
+                <label htmlFor="social" className="text-color">
+                  Your Summary
+                </label>
+                <textarea
+                  defaultValue=""
+                  className="form-control"
+                  name="summary"
+                  placeholder="Write about your self"
+                  onChange={e => setSummary(e.target.value)}
+                />
+              </div>
             </div>
             <div className="form-fields">
               <div>
@@ -429,7 +428,7 @@ const DeveloperResume = () => {
                 </div>
                 <ul>
                   {socialEmails.map((email, i) => {
-                    console.log(email);
+                    // console.log(email);
                     return (
                       <li key={i}>
                         <div className="icon">
@@ -446,45 +445,6 @@ const DeveloperResume = () => {
                       </li>
                     );
                   })}
-                  {/* <li>
-                    <div className="icon">
-                      <FontAwesomeIcon
-                        icon={faTwitter}
-                        size="1x"
-                        className="icons"
-                      />
-                    </div>
-                    <div className="user-data">
-                      <p className="semi_bold">Twitter</p>
-                      <p>{socialEmails?.twitter}</p>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="icon">
-                      <FontAwesomeIcon
-                        icon={faYoutube}
-                        size="1x"
-                        className="icons"
-                      />
-                    </div>
-                    <div className="user-data">
-                      <p className="semi_bold">Youtube</p>
-                      <p>rabeet@youtube.com</p>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="icon">
-                      <FontAwesomeIcon
-                        icon={faLinkedin}
-                        size="1x"
-                        className="icons"
-                      />
-                    </div>
-                    <div className="user-data">
-                      <p className="semi_bold">Linkedin</p>
-                      <p>rabeet@linkedin.com</p>
-                    </div>
-                  </li> */}
                 </ul>
               </div>
             </div>
@@ -494,7 +454,17 @@ const DeveloperResume = () => {
               <div className="title">
                 <p className="bold">Summary</p>
               </div>
-              <p>dfjaslkdf nuetlkeusnfgryulaueiandjsnklgjsdh</p>
+              <div>
+                <textarea
+                  className="summary"
+                  cols="57"
+                  rows="4"
+                  readOnly
+                  wrap="hard"
+                  defaultValue={summary}
+                />
+                {/* <p className="summary-content">{summary}</p> */}
+              </div>
             </div>
             <div className="resume_item resume_work">
               <div className="title">

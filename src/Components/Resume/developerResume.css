@@ -255,6 +255,7 @@ h3 {
 .social-input {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
     flex-wrap: wrap;
 }
 
@@ -269,6 +270,24 @@ h3 {
     font-size: 16px;
     cursor: pointer;
     position: relative;
+}
+
+/* Resume Right Side */
+
+.summary-container {
+    display: flex;
+    /* justify-content: center; */
+    width: 50%;
+    display: inline-block;
+    margin: 20px 0 0 20px
+}
+
+.summary, summary:focus {
+    outline: none;
+    border-style: none;
+    resize: none;
+    overflow: hidden;
+    border-width: 0;
 }
 
 /* Media Query */
