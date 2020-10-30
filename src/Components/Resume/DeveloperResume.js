@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapSigns } from "@fortawesome/free-solid-svg-icons";
 import { faMobileAlt } from "@fortawesome/free-solid-svg-icons";
-// import { faGoogle } from "@fortawesome/free-solid-svg-icons";
 
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -33,8 +32,9 @@ const DeveloperResume = () => {
   const [linkedInDisable, setLinkedInDisable] = useState(true);
 
   const [socialEmails, setSocialEmails] = useState([]);
-
   const [summary, setSummary] = useState();
+
+  const [experienceList, setExperienceList] = useState([]);
 
   const socialButtons = [
     { id: 1, value: "facebook", icon: faFacebook },
@@ -54,6 +54,7 @@ const DeveloperResume = () => {
     inputList.push({});
     setInputList([...inputList]);
   };
+
   const handleAddSkills = i => {
     if (userSkills.length === i) {
       let skillName = inputList[i].skillName;
@@ -121,6 +122,11 @@ const DeveloperResume = () => {
       socialEmails[i] = { social: value, icon: faLinkedin, name: "LinkedIn" };
       setSocialEmails([...socialEmails]);
     }
+  };
+
+  const handleAddExperienceInput = e => {
+    experienceList.push({ exp: "" });
+    setExperienceList([...experienceList]);
   };
 
   return (
@@ -209,7 +215,6 @@ const DeveloperResume = () => {
                 />
               </div>
             </div>
-
             <div className="form-fields input-class">
               {inputList.map((skills, i) => {
                 return (
@@ -266,7 +271,6 @@ const DeveloperResume = () => {
                 );
               })}
             </div>
-
             <h4 style={{ color: "white" }}>Add Skills</h4>
             <div className="social">
               <div className="form-group">
@@ -318,7 +322,6 @@ const DeveloperResume = () => {
                 } else return null;
               })}
             </div>
-
             <div className="summary-container">
               <div className="form-group">
                 <label htmlFor="social" className="text-color">
@@ -333,6 +336,33 @@ const DeveloperResume = () => {
                 />
               </div>
             </div>
+            <div className="form-group">
+              <input
+                className="btn btn-primary"
+                type="button"
+                value="Add Exp"
+                style={{ marginTop: "30px" }}
+                onClick={e => handleAddExperienceInput(e)}
+              />
+            </div>
+
+            {experienceList.map((expInput, i) => {
+              return (
+                <div className="form-group experience" key={i}>
+                  <label htmlFor="social" className="text-color">
+                    aslkdjfshak
+                  </label>
+                  <input
+                    type="text"
+                    name="experience"
+                    className="form-control"
+                    placeholder="Enter Your Experience"
+                    // onChange={e => onHandleChange(e, i)}
+                  />
+                </div>
+              );
+            })}
+
             <div className="form-fields">
               <div>
                 <button className="btn btn-primary btn-block">Next</button>
@@ -401,25 +431,17 @@ const DeveloperResume = () => {
                   <p className="bold">skill's</p>
                 </div>
                 <ul>
-                  {userSkills?.map(
-                    (skill, i) => {
-                      // console.log(skill);
-                      // if (
-                      //   inputList[i].skillName !== "" &&
-                      //   inputList[i].skillPer !== ""
-                      // ) {
-                      return (
-                        <li key={i}>
-                          <div className="skill_name">{skill.skillName}</div>
-                          <div className="skill_progress">
-                            <span style={{ width: skill.skillPer }}></span>
-                          </div>
-                          <div className="skill_per">{skill.skillPer}</div>
-                        </li>
-                      );
-                    }
-                    // return null;
-                  )}
+                  {userSkills?.map((skill, i) => {
+                    return (
+                      <li key={i}>
+                        <div className="skill_name">{skill.skillName}</div>
+                        <div className="skill_progress">
+                          <span style={{ width: skill.skillPer }}></span>
+                        </div>
+                        <div className="skill_per">{skill.skillPer}</div>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
               <div className="resume_item resume_social">
@@ -428,7 +450,6 @@ const DeveloperResume = () => {
                 </div>
                 <ul>
                   {socialEmails.map((email, i) => {
-                    // console.log(email);
                     return (
                       <li key={i}>
                         <div className="icon">
@@ -457,10 +478,10 @@ const DeveloperResume = () => {
               <div>
                 <textarea
                   className="summary"
-                  cols="57"
-                  rows="4"
+                  cols="58"
+                  rows="6"
                   readOnly
-                  wrap="hard"
+                  // wrap="hard"
                   defaultValue={summary}
                 />
                 {/* <p className="summary-content">{summary}</p> */}
