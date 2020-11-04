@@ -9,9 +9,10 @@
 }
 
 body {
-    /* background:  #585c68; */
+    background:  #585c68;
     font-size: 1;
     width: 100%;
+    /* height: 100%; */
     line-height: 22px;
     color: #555555;
 }
@@ -29,8 +30,8 @@ body {
 
 .resume-container {
     background:  #585c68;
-    height: 100%;
-    width: 100%;
+    /* height: 100vh; */
+    width: 100;
     display: flex;
     justify-content: space-around
 }
@@ -249,7 +250,12 @@ h3 {
 .social {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
     margin-left: 30px;
+}
+
+.image {
+    width: 220px;
 }
 
 .social-input {
@@ -288,6 +294,12 @@ h3 {
     resize: none;
     overflow: hidden;
     border-width: 0;
+}
+
+
+.work-experience, .education {
+    display: flex;
+    justify-content: space-around;
 }
 
 /* Media Query */
